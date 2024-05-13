@@ -160,3 +160,7 @@ button {
   touch-action: manipulation;
   width: 50%;
 }
+#precio-select {
+  display: flex;
+  flex-wrap: wrap;
+}

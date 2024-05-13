@@ -2,7 +2,7 @@ const PRODUCTS = [
   {
     image: './assets/og-kush.png',
     name: 'OG Kush',
-    price: '€15 por gramo',
+    price: '€15',
     tipo: 'Híbrida',
     stars: 4.5,
     thc_porcentaje: '15%-20%'
@@ -10,7 +10,7 @@ const PRODUCTS = [
   {
     image: './assets/blue-dream.png',
     name: 'Blue Dream',
-    price: '€12 por gramo',
+    price: '€12',
     tipo: 'Sátiva',
     stars: 4.5,
     thc_porcentaje: '18%-22%'
@@ -18,7 +18,7 @@ const PRODUCTS = [
   {
     image: './assets/gsc.png',
     name: 'Girl Scout Cookies',
-    price: '€18 por gramo',
+    price: '€18',
     tipo: 'Híbrida',
     stars: 4.5,
     thc_porcentaje: '20%-25%'
@@ -26,7 +26,7 @@ const PRODUCTS = [
   {
     image: './assets/northern-lights.png',
     name: 'Northern Lights',
-    price: '€14 por gramo',
+    price: '€14',
     tipo: 'Índica',
     stars: 4.5,
     thc_porcentaje: '15%-20%'
@@ -34,7 +34,7 @@ const PRODUCTS = [
   {
     image: './assets/jack-herer.jpg',
     name: 'Jack Herer',
-    price: '€16 por gramo',
+    price: '€16',
     tipo: 'Sátiva',
     stars: 4.5,
     thc_porcentaje: '18%-24%'
@@ -42,7 +42,7 @@ const PRODUCTS = [
   {
     image: './assets/white-widow.png',
     name: 'White Widow',
-    price: '€13 por gramo',
+    price: '€13',
     tipo: 'Híbrida',
     stars: 4.5,
     thc_porcentaje: '18%-25%'
@@ -50,7 +50,7 @@ const PRODUCTS = [
   {
     image: './assets/gg-4.jpg',
     name: 'Gorilla Glue #4',
-    price: '€20 por gramo',
+    price: '€20',
     tipo: 'Híbrida',
     stars: 4.5,
     thc_porcentaje: '25%-30%'
@@ -58,7 +58,7 @@ const PRODUCTS = [
   {
     image: './assets/purplekush.jpg',
     name: 'Purple Kush',
-    price: '€17 por gramo',
+    price: '€17',
     tipo: 'Índica',
     stars: 3.8,
     thc_porcentaje: '20%-25%'
@@ -98,6 +98,31 @@ filterButton.textContent = 'Filtrar'
 const filterReset = document.createElement('button')
 filterReset.id = 'filter-button'
 filterReset.textContent = 'Limpiar Filtros'
+
+const selectPrecio = document.createElement('select')
+selectPrecio.id = 'precio-select'
+
+const optionTodosPrecios = document.createElement('option')
+optionTodosPrecios.value = 'all'
+optionTodosPrecios.textContent = 'Todos los precios'
+
+const optionPrecioBajo = document.createElement('option')
+optionPrecioBajo.value = 'bajo'
+optionPrecioBajo.textContent = 'Menos de €15'
+
+const optionPrecioMedio = document.createElement('option')
+optionPrecioMedio.value = 'medio'
+optionPrecioMedio.textContent = '€15 - €18'
+
+const optionPrecioAlto = document.createElement('option')
+optionPrecioAlto.value = 'alto'
+optionPrecioAlto.textContent = 'Más de €18'
+
+selectPrecio.appendChild(optionTodosPrecios)
+selectPrecio.appendChild(optionPrecioBajo)
+selectPrecio.appendChild(optionPrecioMedio)
+selectPrecio.appendChild(optionPrecioAlto)
+filterContainer.appendChild(selectPrecio)
 
 selectTipo.appendChild(optionTodos)
 selectTipo.appendChild(optionHibrida)
@@ -150,6 +175,7 @@ const printProducts = (products) => {
 filterReset.addEventListener('click', () => {
   clearFilters()
 })
+
 function clearFilters() {
   selectTipo.value = 'all'
 
@@ -158,14 +184,31 @@ function clearFilters() {
 
 filterButton.addEventListener('click', () => {
   const selectedType = selectTipo.value
-  let filteredProducts
+  const selectedPrice = selectPrecio.value
+  let filteredProducts = PRODUCTS
 
-  if (selectedType === 'all') {
-    filteredProducts = PRODUCTS
-  } else {
-    filteredProducts = PRODUCTS.filter(
+  if (selectedType !== 'all') {
+    filteredProducts = filteredProducts.filter(
       (product) => product.tipo === selectedType
     )
+  }
+
+  if (selectedPrice !== 'all') {
+    if (selectedPrice === 'bajo') {
+      filteredProducts = filteredProducts.filter(
+        (product) => parseInt(product.price.replace('€', '')) < 15
+      )
+    } else if (selectedPrice === 'medio') {
+      filteredProducts = filteredProducts.filter(
+        (product) =>
+          parseInt(product.price.replace('€', '')) >= 15 &&
+          parseInt(product.price.replace('€', '')) <= 18
+      )
+    } else if (selectedPrice === 'alto') {
+      filteredProducts = filteredProducts.filter(
+        (product) => parseInt(product.price.replace('€', '')) > 18
+      )
+    }
   }
 
   printProducts(filteredProducts)
