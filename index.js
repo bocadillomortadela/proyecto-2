@@ -142,33 +142,38 @@ const printProducts = (products) => {
   productSection.innerHTML = ''
   productSection.appendChild(filterContainer)
   productSection.appendChild(productsContainer)
+  if (products.length === 0) {
+    const noResultsMessage = document.createElement('p')
+    noResultsMessage.textContent = 'No se encontraron productos.'
+    productsContainer.appendChild(noResultsMessage)
+  } else {
+    for (const product of products) {
+      const divProductContainer = document.createElement('div')
+      const divProduct = document.createElement('div')
+      const imgProduct = document.createElement('img')
+      const typeProduct = document.createElement('p')
+      const nameProduct = document.createElement('h2')
+      const ratingsProduct = document.createElement('p')
+      const divRatingsContainer = document.createElement('div')
+      const priceProduct = document.createElement('p')
+      const buttonProduct = document.createElement('button')
 
-  for (const product of products) {
-    const divProductContainer = document.createElement('div')
-    const divProduct = document.createElement('div')
-    const imgProduct = document.createElement('img')
-    const typeProduct = document.createElement('p')
-    const nameProduct = document.createElement('h2')
-    const ratingsProduct = document.createElement('p')
-    const divRatingsContainer = document.createElement('div')
-    const priceProduct = document.createElement('p')
-    const buttonProduct = document.createElement('button')
+      imgProduct.src = product.image
+      imgProduct.alt = product.name
+      typeProduct.textContent = `Tipo: ${product.tipo}`
+      nameProduct.textContent = product.name
+      priceProduct.textContent = `Precio: ${product.price}`
+      buttonProduct.textContent = 'Comprar'
 
-    imgProduct.src = product.image
-    imgProduct.alt = product.name
-    typeProduct.textContent = `Tipo: ${product.tipo}`
-    nameProduct.textContent = product.name
-    priceProduct.textContent = `Precio: ${product.price}`
-    buttonProduct.textContent = 'Comprar'
-
-    ratingsProduct.appendChild(divRatingsContainer)
-    divProduct.appendChild(imgProduct)
-    divProduct.appendChild(typeProduct)
-    divProduct.appendChild(nameProduct)
-    divProduct.appendChild(priceProduct)
-    divProduct.appendChild(ratingsProduct)
-    divProduct.appendChild(buttonProduct)
-    productsContainer.appendChild(divProduct)
+      ratingsProduct.appendChild(divRatingsContainer)
+      divProduct.appendChild(imgProduct)
+      divProduct.appendChild(typeProduct)
+      divProduct.appendChild(nameProduct)
+      divProduct.appendChild(priceProduct)
+      divProduct.appendChild(ratingsProduct)
+      divProduct.appendChild(buttonProduct)
+      productsContainer.appendChild(divProduct)
+    }
   }
 }
 
@@ -178,7 +183,7 @@ filterReset.addEventListener('click', () => {
 
 function clearFilters() {
   selectTipo.value = 'all'
-
+  selectPrecio.value = 'all'
   printProducts(PRODUCTS)
 }
 

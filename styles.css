@@ -164,3 +164,10 @@ button {
   display: flex;
   flex-wrap: wrap;
 }
+#product-cards > p {
+  gap: var(--rtc-gap-s);
+  align-content: center;
+  box-shadow: 0px 0px 7px -3px var(--rtc-borderColor);
+  border-radius: var(--rtc-border-radius);
+  padding: var(--rtc-padding-m);
+}
